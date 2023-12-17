@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, minimum-scale=0.5">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+
+<body style="background-color: #888888;">
+
+<!-- <svg wigth = 1000 height = 1000>
+
+<line x1="0" y1="0" x2="1000" y2="100"
+style="
+stroke: rgb(255, 0, 11);
+stroke-width: 10;"/>
+
+<polygon id="poly" points="200,10 250,190 160,210"
+style="
+fill: lime;
+stroke: purple;
+stroke-width: 13;
+"/>
+
+
+</svg> -->
+
+<div class="scheme">
+    <img src="photo123.jpg" alt>
+    <svg class="map" id="map" width="1893" height="1425">
+
+    </svg>
+</div>
+
+
+
+<style>
+        .scheme {
+            height: 1425px;
+            width: 1893px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .scheme svg {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 1425px;
+            width: 1893px;
+        }
+        .scheme polygon {
+            fill: #FFDBA470;
+            cursor: pointer;
+        }
+        .scheme polygon:hover, #hover {
+            fill: #ffc70b70;
+        }
+        .scheme polygon.active {
+            fill: #FF8C0B !important;
+        }
+        .scheme-item {
+            position: absolute;
+            cursor: pointer;
+        }
+        .scheme-name {
+            font-weight: bold;
+            font-size: 10px;
+            text-align: center;
+            line-height: 13px;
+        }
+        .scheme-popup {
+            display: none;
+            border: 1px solid #777;
+            padding: 10px;
+            width: 200px;
+            position: absolute;
+            font-size: 12px;
+            line-height: 14px;
+            background: #fff;
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            text-align: left;
+        }
+    </style>
+
+<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+<script src="/test.js"></script>
+<script src="/animate_script.js"></script>
+
+<script>
+            let button = document.getElementById("button");
+            button.addEventListener("click", click1);
+            let flag = 0
+            let path = '30,50 30,70'
+            var allStates = $("svg.map > *");
+            allStates.on("click", function() {
+              allStates.removeClass("on");
+              $(this).addClass("on");
+            });
+            function click1(path1) {
+                drawPath(path1, "#02AA22", 8, "none",2);
+            }
+            function clearPaths() {
+                var svg = document.getElementsByTagName('svg')[0];
+                var paths = svg.getElementsByTagName('path');
+
+                while (paths.length > 0) {
+                    svg.removeChild(paths[0]);
+                }
+            }
+            function drawPath(path, color, size, fill, duration) {
+
+                var svg = document.getElementsByTagName('svg')[0]; //Get svg
+                var part = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+                part.setAttribute("d","M " + path);
+                part.style.stroke = color;
+                part.style.strokeWidth = size + "px";
+                part.style.fill = fill;
+
+                part.setAttribute("vector-effect", "non-scaling-stroke");
+
+                var length = part.getTotalLength();
+
+                // Устанавливаем начальное состояние анимации
+                part.style.strokeDasharray = length;
+                part.style.strokeDashoffset = length;
+
+                svg.appendChild(part);
+
+                // Запускаем анимацию с использованием requestAnimationFrame
+                var start = null;
+                function animate(timestamp) {
+                if (!start) start = timestamp;
+                var progress = (timestamp - start) / (duration * 1000);
+
+                part.style.strokeDashoffset = Math.max(length - progress * length, 0);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            }
+
+            requestAnimationFrame(animate);
+            }
+
+            let dict = {
+                "1301": "1897,1376",
+                "1302": "1302,1830",
+                "1303": "1212,1438",
+                "1305": "479,1385",
+                "1306":  "373, 1322"
+            };
+
+        </script>
+
+
+</body>
+</html>
