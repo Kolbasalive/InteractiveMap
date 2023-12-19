@@ -1,6 +1,6 @@
-package com.example.navigation.algos;
+package com.example.navigation.Core;
 
-public class test {
+public class TestDi {
     public static void main(String[] args) {
         System.out.println("Hi");
     }

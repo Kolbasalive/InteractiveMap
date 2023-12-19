@@ -1,4 +1,4 @@
-package com.example.navigation.algos;
+package com.example.navigation.Core;
 
 /** Рёбра */
 class Edge{

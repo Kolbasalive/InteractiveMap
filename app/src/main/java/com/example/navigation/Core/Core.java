@@ -1,9 +1,14 @@
-package com.example.navigation.algos;
+package com.example.navigation.Core;
+
+import android.content.res.AssetManager;
+import android.util.Log;
 
 import java.io.*;
 import java.util.*;
 
-public class Dikstra {
+public class Core {
+
+    public static AssetManager assetManager;
     /**
      * Количество рёбер графа * 2
      */
@@ -20,22 +25,22 @@ public class Dikstra {
      */
     private static final int endI = 5;
 
-    public static void main(String[] args) {
+    public static String main(int startNew, int endNew) {
 
         int[][] array = new int[SIZE][3];
 
         HashMap<Integer, Node> graph = createGraph(Objects.requireNonNull(readFile(array)));
 
-        Node start = graph.get(startI);
-        Node end = graph.get(endI);
+        Node start = graph.get(setBuilding(startNew));
+        Node end = graph.get(setBuilding(endNew));
         LinkedList<Node> linkedList = getShortestPath(graph,
                 start,
                 end);
 
         if (linkedList != null) {
-            getNode(linkedList);
+            return getNode(linkedList);
         } else {
-            System.out.println("Пути не существует");
+            return "-1";
         }
 
     }
@@ -43,14 +48,15 @@ public class Dikstra {
     /**
      * Вывод пути
      */
-    public static void getNode(LinkedList<Node> path) {
+    public static String getNode(LinkedList<Node> path) {
         int sum = 0;
+        StringBuilder strPath = new StringBuilder();
         for (int i = 0; i < path.size(); i++) {
-            System.out.println(path.get(i).value);
+            strPath.append(path.get(i).value).append(" ");
             if (i != path.size() - 1)
                 sum += path.get(i).parents.get(path.get(i + 1)).weight;
         }
-        System.out.println("Длина всего пути: " + sum + " дм.");
+        return strPath.toString();
     }
 
     /**
@@ -167,10 +173,10 @@ public class Dikstra {
 
     public static int[][] readFile(int[][] array) {
         try {
-            File file = new File("C:\\Users\\Max\\navigation\\src\\com\\company\\GraphList");
-            FileReader fr = new FileReader(file);
-            BufferedReader reader = new BufferedReader(fr);
+            BufferedReader reader;
+            reader = new BufferedReader(new InputStreamReader(assetManager.open("GraphList")));
             String line = reader.readLine();
+
 
             int i = 0;
             while (line != null) {
@@ -218,34 +224,95 @@ public class Dikstra {
     /**
      * Сопоставление корпусов(на вход номер корпуса)
      */
-/*    public static int setBuilding(int number) {
-        return switch (number) {
-            case 2 -> 54;
-            case 3 -> 36;
-            case 4 -> 45;
-            case 5 -> 4;
-            case 6 -> 9;
-            case 7 -> 49;
-            case 8 -> 33;
-            case 9 -> 60;
-            case 10 -> 23;
-            case 11 -> 41;
-            case 12 -> 53;
-            case 13 -> 38;
-            case 14 -> 20;
-            default -> 1;
-        };
-    }*/
+    public static int setBuilding(int number) {
+        int result;
+        switch (number) {
+            case 2:
+                result = 54;
+                break;
+            case 3:
+                result = 36;
+                break;
+            case 4:
+                result = 45;
+                break;
+            case 5:
+                result = 4;
+                break;
+            case 6:
+                result = 7;
+                break;
+            case 7:
+                result = 49;
+                break;
+            case 8:
+                result = 33;
+                break;
+            case 9:
+                result = 60;
+                break;
+            case 10:
+                result = 23;
+                break;
+            case 11:
+                result = 41;
+                break;
+            case 12:
+                result = 53;
+                break;
+            case 13:
+                result = 38;
+                break;
+            case 14:
+                result = 20;
+                break;
+            default:
+                result = 1;
+                break;
+        }
+        return result;
+    }
 
-
-    public static void chekEndStart(){
+    public static void chekEndStart() {
         try {
-            if (endMax < endI || startMax < startI){
+            if (endMax < endI || startMax < startI) {
                 startI = 1;
                 throw new Exception("No date");
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
+
+    public static String getPathRoute(AssetManager assetManager1, int startNew, int endNew) {
+
+        assetManager = assetManager1;
+        String strPathRoute = "";
+        String[] strPathNode = (main(startNew, endNew)).split(" ");
+        Map<String, String> strPathPath = new HashMap<>();
+
+        try {
+            BufferedReader reader;
+            reader = new BufferedReader(new InputStreamReader(assetManager.open("Path")));
+            String line = reader.readLine();
+            while (line != null) {
+                String[] str = line.split(" ");
+                strPathPath.put(str[0], str[1]);
+
+                line = reader.readLine();
+            }
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+
+        for (int i = 0; i < strPathNode.length; i++) {
+            strPathRoute += strPathPath.get(strPathNode[i]) + " ";
+        }
+
+
+        return strPathRoute;
+    }
+
 }
