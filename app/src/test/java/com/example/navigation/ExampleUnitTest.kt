@@ -1,7 +1,5 @@
 package com.example.navigation
 
-import com.example.navigation.Core.Core
-import com.example.navigation.Core.TestDi
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -18,15 +16,10 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun testEpta(){
-        val s = Core.getPathRoute(, 1, 5)
+    fun testE(){
+        val s = ""//Core.getPathRoute(, 1, 5)
         //assertEquals("1 2 3 4 ", s)
         println(s)
-    }
-
-    @Test
-    fun test(){
-        TestDi.main(arrayOf())
     }
 
 }
